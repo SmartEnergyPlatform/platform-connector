@@ -1,0 +1,32 @@
+{
+  "ZookeeperUrl":"zk:2181",
+  "KafkaResponseTopic":"response",
+  "KafkaEventTopic":"eventfilter",
+  "KafkaConsumerTopic":"connector_1",
+  "KafkaSourceTopic":"connector",
+  "KafkaTimeout": 60,
+  "WsPort":"8080",
+  "WssPort":"",
+  "TlsCertFile":"",
+  "TlsKeyFile":"",
+  "WsTimeout":40,
+  "WsPingperiod":20,
+  "MaxConsecutiveErrors": 5,
+  "SaramaLog":"false",
+  "IotRepoUrl":"http://iot:8080",
+  "PtsUrl":"http://pts:8080",
+  "FatalKafkaErrors":"true",
+  "KafkaDeviceLogTopic": "devicelog",
+  "AuthEndpoint":     "http://keycloak:8080",
+  "AuthClientId":     "connector",
+  "AuthClientSecret": "",
+  "AuthExpirationTimeBuffer": 1,
+
+  "AmqpUrl": "amqp://user:pw@rabbitmq:5672/",
+  "AmqpReconnectTimeout": 10,
+
+  "ConnectorLogTopic": "connector_log",
+  "DeviceLogTopic": "device_log",
+  "GatewayLogTopic": "gateway_log",
+  "LogTime": 60
+}
