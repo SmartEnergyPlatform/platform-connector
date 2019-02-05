@@ -1,7 +1,7 @@
 {
   "ZookeeperUrl":"zk:2181",
   "KafkaResponseTopic":"response",
-  "KafkaEventTopic":"eventfilter",
+  "EventTopic":"eventfilter",
   "ConsumerName":"connector_1",
   "ProtocolTopic":"connector",
   "KafkaTimeout": 60,

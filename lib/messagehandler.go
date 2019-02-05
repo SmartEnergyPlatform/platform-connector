@@ -251,7 +251,7 @@ func event(session *Session, request Request) {
 				request.Error(err.Error())
 			} else {
 				ProduceKafka(serviceTopic, string(jsonPrefixMsg))
-				err = Produce(util.Config.KafkaEventTopic, jsonPrefixMsg, prefixMsg.DeviceId, prefixMsg.DeviceId)
+				err = Produce(util.Config.EventTopic, jsonPrefixMsg, prefixMsg.DeviceId, prefixMsg.DeviceId)
 				if err != nil {
 					log.Println("ERROR: unable to send event to platform", err)
 				}

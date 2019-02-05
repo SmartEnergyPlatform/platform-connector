@@ -30,7 +30,7 @@ import (
 type ConfigStruct struct {
 	ZookeeperUrl        string //host1:2181,host2:2181/chroot
 	KafkaResponseTopic  string
-	KafkaEventTopic     string
+	EventTopic          string
 	ConsumerName        string
 	ProtocolTopic       string
 	KafkaDeviceLogTopic string
