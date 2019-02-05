@@ -33,7 +33,7 @@ var onceSessionsCollection sync.Once
 func Sessions() *SessionsCollection {
 	onceSessionsCollection.Do(func() {
 		ConnectorLog{Connected: true}.Send()
-		ClearPts()
+		ClearBindings()
 		sessionsCollection = &SessionsCollection{
 			index:    map[string]map[string]*Session{},
 			sessions: map[string]*Session{},
@@ -70,10 +70,10 @@ func (this *SessionsCollection) RegisterPrefix(session *Session, prefix string) 
 	this.mux.Lock()
 	if _, exists := this.index[prefix]; !exists {
 		this.index[prefix] = map[string]*Session{}
-		err = RegisterPts(prefix)
+		err = BindDevice(prefix)
 	}
 	if err != nil {
-		log.Println("ERROR in RegisterPts(): ", err)
+		log.Println("ERROR in BindDevice(): ", err)
 	} else {
 		this.index[prefix][session.Id] = session
 	}
@@ -87,7 +87,7 @@ func (this *SessionsCollection) Deregister(session *Session) {
 	for _, prefix := range session.Prefixes {
 		delete(this.index[prefix], session.Id)
 		if len(this.index[prefix]) == 0 {
-			DeregisterPts(prefix)
+			UnbindDevice(prefix)
 			delete(this.index, prefix)
 		}
 	}
@@ -98,9 +98,9 @@ func (this *SessionsCollection) DeregisterPrefix(session *Session, prefix string
 	this.mux.Lock()
 	delete(this.index[prefix], session.Id)
 	if len(this.index[prefix]) == 0 {
-		err = DeregisterPts(prefix)
+		err = UnbindDevice(prefix)
 		if err != nil {
-			log.Println("ERROR in DeregisterPts(): ", err)
+			log.Println("ERROR in UnbindDevice(): ", err)
 		} else {
 			delete(this.index, prefix)
 		}

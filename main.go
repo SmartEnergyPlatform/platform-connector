@@ -45,10 +45,21 @@ func main() {
 
 	lib.InitConnectionLog()
 
-	defer lib.ClearPts()
+	defer lib.ClearBindings()
 	defer lib.Sessions().Close()
 
-	go lib.InitConsumer()
+	err = lib.InitConsumer()
+	if err != nil {
+		log.Fatal("ERROR: unable to start consumer", err)
+	}
+	defer lib.CloseConsumer()
+
+	err = lib.InitProducer()
+	if err != nil {
+		log.Fatal("ERROR: unable to start producer", err)
+	}
+	defer lib.CloseProducer()
+
 	go lib.WsStart()
 
 	shutdown := make(chan os.Signal, 1)

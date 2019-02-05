@@ -90,7 +90,11 @@ func response(session *Session, request Request) {
 		request.UserError("ERROR: cannot parse response msg: " + err.Error())
 		return
 	}
-	Produce(util.Config.KafkaResponseTopic, string(msg))
+	ProduceKafka(util.Config.KafkaResponseTopic, string(msg))
+	err = Produce(util.Config.KafkaResponseTopic, msg)
+	if err != nil {
+		log.Println("ERROR: unable to send response to platform", err)
+	}
 	request.Respond("ok")
 }
 
@@ -246,8 +250,11 @@ func event(session *Session, request Request) {
 				log.Println("ERROR: creating jsonPrefixMsg failed: ", err)
 				request.Error(err.Error())
 			} else {
-				Produce(serviceTopic, string(jsonPrefixMsg))
-				Produce(util.Config.KafkaEventTopic, string(jsonPrefixMsg))
+				ProduceKafka(serviceTopic, string(jsonPrefixMsg))
+				err = Produce(util.Config.KafkaEventTopic, jsonPrefixMsg, prefixMsg.DeviceId, prefixMsg.DeviceId)
+				if err != nil {
+					log.Println("ERROR: unable to send event to platform", err)
+				}
 				request.Respond("ok")
 			}
 			return

@@ -17,27 +17,13 @@
 package lib
 
 import (
-	"github.com/SmartEnergyPlatform/platform-connector/util"
-	"encoding/json"
 	"log"
-
-	iot_model "github.com/SmartEnergyPlatform/iot-device-repository/lib/model"
 )
 
 type DeviceLogMsg struct {
 	Id    string `json:"id"`
 	State string `json:"state"`
 	Desc  string `json:"desc"`
-}
-
-//deprecated
-func LogDeviceState(id string, state string, desc string) (err error) {
-	msg, err := json.Marshal(DeviceLogMsg{Id: id, State: state, Desc: desc})
-	if err != nil {
-		return err
-	}
-	Produce(util.Config.KafkaDeviceLogTopic, string(msg))
-	return
 }
 
 func (session *Session) LogDisconnect() {
@@ -52,18 +38,10 @@ func (session *Session) LogDisconnect() {
 		if err != nil {
 			log.Println("WARNING: unable to log device connection state ", err)
 		}
-		err = LogDeviceState(id, "disconnected", util.Config.KafkaConsumerTopic)
-		if err != nil {
-			log.Println("WARNING: unable to log device state ", err)
-		}
 	}
 	err := GatewayLog{Gateway: session.Gateway, Connected: false}.Send()
 	if err != nil {
 		log.Println("WARNING: unable to log gateway connection state ", err)
-	}
-	err = LogDeviceState("gw-"+session.Gateway, "disconnected", util.Config.KafkaConsumerTopic)
-	if err != nil {
-		log.Println("WARNING: unable to log gateway state ", err)
 	}
 }
 
@@ -72,20 +50,12 @@ func (session *Session) LogDisconnectDevice(id string) {
 	if err != nil {
 		log.Println("WARNING: unable to log device connection state ", err)
 	}
-	err = LogDeviceState(id, "disconnected", util.Config.KafkaConsumerTopic)
-	if err != nil {
-		log.Println("WARNING: unable to log device state ", err)
-	}
 }
 
 func (session *Session) LogGatewayConnect() {
 	err := GatewayLog{Gateway: session.Gateway, Connected: true}.Send()
 	if err != nil {
 		log.Println("WARNING: unable to log gateway connection state ", err)
-	}
-	err = LogDeviceState("gw-"+session.Gateway, "connected", util.Config.KafkaConsumerTopic)
-	if err != nil {
-		log.Println("WARNING: unable to log gateway state ", err)
 	}
 }
 
@@ -101,18 +71,10 @@ func (session *Session) LogConnect() {
 		if err != nil {
 			log.Println("WARNING: unable to log device connection state ", err)
 		}
-		err = LogDeviceState(id, "connected", util.Config.KafkaConsumerTopic)
-		if err != nil {
-			log.Println("WARNING: unable to log device state ", err)
-		}
 	}
 	err := GatewayLog{Gateway: session.Gateway, Connected: true}.Send()
 	if err != nil {
 		log.Println("WARNING: unable to log gateway connection state ", err)
-	}
-	err = LogDeviceState("gw-"+session.Gateway, "connected", util.Config.KafkaConsumerTopic)
-	if err != nil {
-		log.Println("WARNING: unable to log gateway state ", err)
 	}
 }
 
@@ -120,22 +82,5 @@ func (session *Session) LogConnectDevice(id string) {
 	err := DeviceLog{Device: id, Connected: true}.Send()
 	if err != nil {
 		log.Println("WARNING: unable to log device connection state ", err)
-	}
-	err = LogDeviceState(id, "connected", util.Config.KafkaConsumerTopic)
-	if err != nil {
-		log.Println("WARNING: unable to log device state ", err)
-	}
-}
-
-func (session *Session) LogCreated(devices []iot_model.DeviceInstance) {
-	ids := []string{}
-	for _, device := range devices {
-		ids = append(ids, device.Id)
-	}
-	for _, id := range ids {
-		err := LogDeviceState(id, "registered", util.Config.KafkaConsumerTopic)
-		if err != nil {
-			log.Println("WARNING: unable to log device state ", err)
-		}
 	}
 }

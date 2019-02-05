@@ -107,19 +107,19 @@ type DeviceLog struct {
 }
 
 func (this DeviceLog) Send() error {
-	this.Connector = util.Config.KafkaConsumerTopic
+	this.Connector = util.Config.ConsumerName
 	this.Time = time.Now()
 	return sendEvent(util.Config.DeviceLogTopic, this)
 }
 
 func (this GatewayLog) Send() error {
-	this.Connector = util.Config.KafkaConsumerTopic
+	this.Connector = util.Config.ConsumerName
 	this.Time = time.Now()
 	return sendEvent(util.Config.GatewayLogTopic, this)
 }
 
 func (this ConnectorLog) Send() error {
-	this.Connector = util.Config.KafkaConsumerTopic
+	this.Connector = util.Config.ConsumerName
 	this.Time = time.Now()
 	return sendEvent(util.Config.ConnectorLogTopic, this)
 }

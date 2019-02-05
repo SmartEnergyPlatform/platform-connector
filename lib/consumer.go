@@ -17,74 +17,23 @@
 package lib
 
 import (
+	"encoding/json"
+	"github.com/SENERGY-Platform/iot-broker-client"
 	"github.com/SmartEnergyPlatform/platform-connector/util"
 	"log"
-
-	"time"
-
-	"encoding/json"
-
-	"github.com/wvanbergen/kafka/consumergroup"
-	kazoo "github.com/wvanbergen/kazoo-go"
 )
+var consumer *iot_broker_client.Consumer
 
-func InitConsumer() {
-	defer CloseProducer()
-	Produce(util.Config.KafkaConsumerTopic, "topic_init")
+func InitConsumer() (err error) {
+	consumer, err = iot_broker_client.NewConsumer(util.Config.AmqpUrl, util.Config.ConsumerName, util.Config.ProtocolTopic, false, func(msg []byte) error {
+		go HandleMessage(string(msg))
+		return nil
+	})
+	return
+}
 
-	zk, chroot := kazoo.ParseConnectionString(util.Config.ZookeeperUrl)
-	kafkaconf := consumergroup.NewConfig()
-	kafkaconf.Consumer.Return.Errors = util.Config.FatalKafkaErrors == "true"
-	kafkaconf.Zookeeper.Chroot = chroot
-	consumerGroupName := util.Config.KafkaConsumerTopic
-	consumer, err := consumergroup.JoinConsumerGroup(
-		consumerGroupName,
-		[]string{util.Config.KafkaConsumerTopic},
-		zk,
-		kafkaconf)
-
-	if err != nil {
-		log.Fatal("error in consumergroup.JoinConsumerGroup()", err)
-	}
-
-	defer consumer.Close()
-
-	kafkaTimeout := util.Config.KafkaTimeout
-	useTimeout := true
-	if kafkaTimeout <= 0 {
-		useTimeout = false
-		kafkaTimeout = 3600
-	}
-	kafkaping := time.NewTicker(time.Second * time.Duration(kafkaTimeout/2))
-	kafkatimout := time.NewTicker(time.Second * time.Duration(kafkaTimeout))
-
-	timeout := false
-
-	for {
-		select {
-		case <-kafkaping.C:
-			if useTimeout && timeout {
-				Produce(util.Config.KafkaConsumerTopic, "topic_init")
-			}
-		case <-kafkatimout.C:
-			if useTimeout && timeout {
-				log.Fatal("ERROR: kafka missing ping timeout")
-			}
-			timeout = true
-		case errMsg := <-consumer.Errors():
-			log.Fatal("kafka consumer error: ", errMsg)
-		case msg, ok := <-consumer.Messages():
-			if !ok {
-				log.Fatal("empty kafka consumer")
-			} else {
-				if string(msg.Value) != "topic_init" {
-					HandleMessage(string(msg.Value))
-				}
-				timeout = false
-				consumer.CommitUpto(msg)
-			}
-		}
-	}
+func CloseConsumer(){
+	consumer.Close()
 }
 
 type Envelope struct {
@@ -107,4 +56,20 @@ func HandleMessage(msg string) {
 		return
 	}
 	Sessions().Dispatch(envelope.DeviceId, string(payload))
+}
+
+
+func BindDevice(device string) (err error) {
+	return consumer.Bind(device, "#")
+}
+
+func UnbindDevice(device string) (err error) {
+	return consumer.Unbind(device, "#")
+}
+
+func ClearBindings() {
+	err := iot_broker_client.PurgeConsumerQueue(util.Config.AmqpUrl, util.Config.ConsumerName)
+	if err != nil {
+		log.Println("WARNING: error while ClearBindings()", err)
+	}
 }

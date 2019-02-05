@@ -31,8 +31,8 @@ type ConfigStruct struct {
 	ZookeeperUrl        string //host1:2181,host2:2181/chroot
 	KafkaResponseTopic  string
 	KafkaEventTopic     string
-	KafkaConsumerTopic  string
-	KafkaSourceTopic    string
+	ConsumerName        string
+	ProtocolTopic       string
 	KafkaDeviceLogTopic string
 
 	MaxConsecutiveErrors int64
