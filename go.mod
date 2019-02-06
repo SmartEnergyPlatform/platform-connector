@@ -1,7 +1,7 @@
 module github.com/SmartEnergyPlatform/platform-connector
 
 require (
-	github.com/SENERGY-Platform/iot-broker-client v0.0.0-20190204142131-b3a8bcc95f2b
+	github.com/SENERGY-Platform/iot-broker-client v0.0.0-20190206083222-04a05debe3a4
 	github.com/Shopify/sarama v0.0.0-20180104135601-f0c32558d5e8
 	github.com/SmartEnergyPlatform/amqp-wrapper-lib v0.0.0-20181018071408-32e07d9d89bb
 	github.com/SmartEnergyPlatform/formatter-lib v0.0.0-20181018082014-b45c9317bb5e

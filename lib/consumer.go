@@ -68,7 +68,7 @@ func UnbindDevice(device string) (err error) {
 }
 
 func ClearBindings() {
-	err := iot_broker_client.PurgeConsumerQueue(util.Config.AmqpUrl, util.Config.ConsumerName)
+	err := consumer.ResetBindings()
 	if err != nil {
 		log.Println("WARNING: error while ClearBindings()", err)
 	}

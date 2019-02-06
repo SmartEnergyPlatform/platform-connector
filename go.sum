@@ -3,6 +3,8 @@ github.com/Microsoft/go-winio v0.4.8/go.mod h1:VhR8bwka0BXejwEJY73c50VrPtXAaKcyv
 github.com/Nvveen/Gotty v0.0.0-20120604004816-cd527374f1e5/go.mod h1:lmUJ/7eu/Q8D7ML55dXQrVaamCz2vxCfdQBasLZfHKk=
 github.com/SENERGY-Platform/iot-broker-client v0.0.0-20190204142131-b3a8bcc95f2b h1:iL1mLhWuE5y2DgiikjesX3gWWKg8XKbHpyHybwmrGdI=
 github.com/SENERGY-Platform/iot-broker-client v0.0.0-20190204142131-b3a8bcc95f2b/go.mod h1:nZclPisFICTtN2RqbzSIMSSaF3JvcFMaGMfFRmMHCec=
+github.com/SENERGY-Platform/iot-broker-client v0.0.0-20190206083222-04a05debe3a4 h1:UAOAug+DDgt04EQtYYagICyOKJzo+VA7yN4O6LOimJs=
+github.com/SENERGY-Platform/iot-broker-client v0.0.0-20190206083222-04a05debe3a4/go.mod h1:nZclPisFICTtN2RqbzSIMSSaF3JvcFMaGMfFRmMHCec=
 github.com/Shopify/sarama v0.0.0-20180104135601-f0c32558d5e8 h1:t4+18LnIMFlkJgAnD/Gp42X8RdGCgt91Em/bVhnfN+w=
 github.com/Shopify/sarama v0.0.0-20180104135601-f0c32558d5e8/go.mod h1:FVkBWblsNy7DGZRfXLU0O9RCGt5g3g3yEuWXgklEdEo=
 github.com/SmartEnergyPlatform/amqp-wrapper-lib v0.0.0-20181018071408-32e07d9d89bb h1:wkigEsq8SRUzIbsA5gAWhZ7a1CECn1vnhpElcoA6evE=

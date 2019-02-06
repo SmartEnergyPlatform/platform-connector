@@ -45,7 +45,6 @@ func main() {
 
 	lib.InitConnectionLog()
 
-	defer lib.ClearBindings()
 	defer lib.Sessions().Close()
 
 	err = lib.InitConsumer()
@@ -53,6 +52,7 @@ func main() {
 		log.Fatal("ERROR: unable to start consumer", err)
 	}
 	defer lib.CloseConsumer()
+	defer lib.ClearBindings()
 
 	err = lib.InitProducer()
 	if err != nil {
