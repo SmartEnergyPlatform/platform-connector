@@ -18,14 +18,14 @@ package lib
 
 import (
 	"encoding/json"
-	"github.com/SENERGY-Platform/iot-broker-client"
+	"github.com/SENERGY-Platform/iot-broker-client-lib"
 	"github.com/SmartEnergyPlatform/platform-connector/util"
 	"log"
 )
-var consumer *iot_broker_client.Consumer
+var consumer *iot_broker_client_lib.Consumer
 
 func InitConsumer() (err error) {
-	consumer, err = iot_broker_client.NewConsumer(util.Config.AmqpUrl, util.Config.ConsumerName, util.Config.ProtocolTopic, false, func(msg []byte) error {
+	consumer, err = iot_broker_client_lib.NewConsumer(util.Config.AmqpUrl, util.Config.ConsumerName, util.Config.ProtocolTopic, false, func(msg []byte) error {
 		go HandleMessage(string(msg))
 		return nil
 	})

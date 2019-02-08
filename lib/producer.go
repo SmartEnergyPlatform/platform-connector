@@ -17,14 +17,14 @@
 package lib
 
 import (
-	"github.com/SENERGY-Platform/iot-broker-client"
+	"github.com/SENERGY-Platform/iot-broker-client-lib"
 	"github.com/SmartEnergyPlatform/platform-connector/util"
 )
 
-var producer *iot_broker_client.Publisher
+var producer *iot_broker_client_lib.Publisher
 
 func InitProducer() (err error){
-	producer, err = iot_broker_client.NewPublisher(util.Config.AmqpUrl)
+	producer, err = iot_broker_client_lib.NewPublisher(util.Config.AmqpUrl)
 	return
 }
 
