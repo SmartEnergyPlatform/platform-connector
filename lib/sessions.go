@@ -33,7 +33,6 @@ var onceSessionsCollection sync.Once
 func Sessions() *SessionsCollection {
 	onceSessionsCollection.Do(func() {
 		ConnectorLog{Connected: true}.Send()
-		ClearBindings()
 		sessionsCollection = &SessionsCollection{
 			index:    map[string]map[string]*Session{},
 			sessions: map[string]*Session{},

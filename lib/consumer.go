@@ -68,8 +68,10 @@ func UnbindDevice(device string) (err error) {
 }
 
 func ClearBindings() {
-	err := consumer.ResetBindings()
-	if err != nil {
-		log.Println("WARNING: error while ClearBindings()", err)
+	if consumer != nil {
+		err := consumer.ResetBindings()
+		if err != nil {
+			log.Println("WARNING: error while ClearBindings()", err)
+		}
 	}
 }

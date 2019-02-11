@@ -51,6 +51,7 @@ func main() {
 	if err != nil {
 		log.Fatal("ERROR: unable to start consumer", err)
 	}
+	lib.ClearBindings()
 	defer lib.CloseConsumer()
 	defer lib.ClearBindings()
 
