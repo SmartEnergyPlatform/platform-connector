@@ -33,7 +33,6 @@ type ConfigStruct struct {
 	EventTopic          string
 	ConsumerName        string
 	ProtocolTopic       string
-	KafkaDeviceLogTopic string
 
 	MaxConsecutiveErrors int64
 
@@ -44,12 +43,9 @@ type ConfigStruct struct {
 	WsTimeout    int64
 	WsPingperiod int64
 
-	KafkaTimeout int64
-
 	SaramaLog string
 
 	IotRepoUrl string
-	PtsUrl     string
 
 	FatalKafkaErrors string
 
